@@ -64,8 +64,8 @@ if os.path.exists(model_path):
                 {
                     "range": {
                         "timestamp": {
-                            "gte": "2018-10-07T17:00:00",
-                            "lte": "2018-10-07T23:59:59"
+                            "gte": "2018-10-11T17:00:00",
+                            "lte": "2018-10-11T23:59:59"
                         }
                     }
                 }
@@ -119,3 +119,35 @@ else:
         for doc_id, cluster_label in zip(doc_ids, clusters):
             es.update(index='credo-detections', id=doc_id, body={"doc": {"cluster": cluster_label}})
         print("Clustering complete and Elasticsearch updated with cluster labels.")
+
+
+
+
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+# Fit or predict clusters based on the model's existence
+if not os.path.exists(model_path):
+    if features_list:  # Ensure there is data to fit
+        kmeans.fit(features_list)
+        joblib.dump(kmeans, model_path)
+else:
+    if features_list:
+        clusters = kmeans.predict(features_list)
+        # Update Elasticsearch with cluster labels if not already labeled
+        for doc_id, cluster_label in zip(doc_ids, clusters):
+            es.update(index='credo-detections', id=doc_id, body={"doc": {"cluster": cluster_label}})
+        print("Clustering complete and Elasticsearch updated with cluster labels.")
+
+        # Perform PCA for dimensionality reduction
+        pca = PCA(n_components=2)
+        reduced_features = pca.fit_transform(features_list)
+
+        # Plotting the clusters
+        plt.figure(figsize=(10, 6))
+        scatter = plt.scatter(reduced_features[:, 0], reduced_features[:, 1], c=clusters, cmap='viridis', label=clusters)
+        plt.colorbar(scatter)
+        plt.title('2D PCA of Image Clusters')
+        plt.xlabel('Principal Component 1')
+        plt.ylabel('Principal Component 2')
+        plt.grid(True)
+        plt.show()

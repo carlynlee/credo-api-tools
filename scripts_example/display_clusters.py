@@ -23,7 +23,15 @@ def fetch_images_by_cluster(cluster_id, index_name, max_results=100):
         "query": {
             "bool": {
                 "must": [
-                    {"match": {"cluster": cluster_id}}
+                    {"match": {"cluster": cluster_id}},
+                    {
+                        "range": {
+                            "timestamp": {
+                                "gte": "2018-10-09T17:00:00",
+                                "lte": "2018-10-09T23:59:59"
+                            }
+                        }
+                    }
                 ]
             }
         }
