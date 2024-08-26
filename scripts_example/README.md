@@ -62,8 +62,6 @@ Processes JSON files to extract and save images as PNG files.
 
 bash
 
-Copy code
-
 `python decode_and_save_images.py`
 
 -   Adjust the `values` and `max` parameters in the `main()` function to control which JSON file is processed and how many images are saved.
@@ -73,8 +71,6 @@ Copy code
 Extracts images from Elasticsearch, performs feature extraction using ResNet50, clusters them using KMeans, and updates Elasticsearch with the cluster labels. The script also visualizes the clusters using PCA.
 
 bash
-
-Copy code
 
 `python cluster_images_from_elasticsearch.py`
 
@@ -86,8 +82,6 @@ Fetches images based on device and cluster IDs, computes mean images for each cl
 
 bash
 
-Copy code
-
 `python visualize_cluster_mean_images.py`
 
 -   By default, the script processes device IDs `[4866, 4961, 5555, 5209, 4681, 5158]` and cluster IDs from `0` to `9`. Adjust these lists in the script to process different devices or clusters.
@@ -98,8 +92,6 @@ Fetches images by cluster ID from Elasticsearch, displays them with associated m
 
 bash
 
-Copy code
-
 `python fetch_and_display_cluster_images.py`
 
 -   The script fetches and displays images from a specified cluster and saves the resulting image grid to your `Downloads` directory.
@@ -109,8 +101,6 @@ Copy code
 Fetches the distribution of cluster IDs for different devices over October 2018 and visualizes the results in a bar plot.
 
 bash
-
-Copy code
 
 `python plot_device_cluster_statistics.py`
 
